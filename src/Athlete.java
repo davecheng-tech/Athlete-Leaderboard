@@ -12,8 +12,6 @@
  * - USA athlete: "LeBron JAMES"
  * 
  * This class is immutable.
- * 
- * @author 
  */
 public class Athlete {
     private final String lastName;
@@ -45,7 +43,7 @@ public class Athlete {
     /**
      * Returns the full name of the athlete, formatted according to naming conventions
      * of the athlete's country.
-     * <p>
+     * 
      * Countries using last-name-first format: CHN, JPN, KOR, VNM, HKG.
      * All other countries use first-name-first format.
      * The last name is always displayed in uppercase.
