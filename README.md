@@ -1,89 +1,81 @@
-# Athlete Name Formatter – Encapsulation Example
+# Athlete Name Leaderboard: Encapsulation and Aggregation
 
-This project demonstrates the object-oriented programming (OOP) principle of **encapsulation** using a simple `Athlete` class in Java. It is intended as an introduction to understand how encapsulation helps protect data and structure code in a clean, organized, and maintainable way.
+This Java project demonstrates two key object-oriented programming (OOP) principles:
 
+1. **Encapsulation** – illustrated through the `Athlete` class, which protects and formats its internal data.
+2. **HAS-A Relationship (Aggregation)** – illustrated through the `Team` class, which contains multiple `Athlete` objects from the same country.
 
-## What is encapsulation?
+This project is intended as an introduction to clean, maintainable OOP design in Java.
 
-**Encapsulation** is one of the four fundamental principles of OOP (along with inheritance, polymorphism, and abstraction). It refers to the practice of:
+## Encapsulation
 
-- **Bundling related data and methods into a single class**, and  
-- **Restricting direct access** to some of the class's internal data (usually by marking instance variables `private`).
+Encapsulation is the practice of:
 
-Instead of allowing external code to manipulate fields directly, encapsulation encourages you to provide **controlled access** through `public` methods (getters/setters).
+- Grouping related data and behavior into a single class, and  
+- Restricting direct access to the internal state of the object by declaring variables as `private`.
 
-This protects the integrity of the object and makes it easier to reason about how the data is used and updated.
+Instead of allowing direct manipulation of fields, encapsulation promotes controlled access through public methods (such as getters and setters). This helps maintain data integrity and ensures consistent behavior across a codebase.
 
+### The `Athlete` Class
 
-## Encapsulation in this project
+The `Athlete` class demonstrates encapsulation in the following ways:
 
-### Class: `Athlete`
+- All instance variables (`firstName`, `lastName`, and `countryCode`) are marked `private`, so they cannot be accessed directly from outside the class.
+- These variables are also declared `final`, making the object immutable once constructed.
+- The class provides public methods to retrieve the athlete's country and a formatted full name.
+- The `getName()` method applies cultural formatting rules: for specific countries (e.g., CHN, JPN, VNM), the last name appears first.
+
+#### Example
 
 ```java
-public class Athlete {
-    private final String lastName;
-    private final String firstName;
-    private final String countryCode;
-
-    public Athlete(String lastName, String firstName, String countryCode) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.countryCode = countryCode;
-    }
-
-    public String getCountry() {
-        return countryCode;
-    }
-
-    public String getName() {
-        // Country-based name formatting logic here
-    }
-}
+Athlete yao = new Athlete("Yao", "Ming", "CHN");
+System.out.println(yao.getName()); // Output: YAO Ming
 ```
 
-In this example:
-- All instance variables (`firstName`, `lastName`, and `countryCode`) are `private`, so they **cannot be accessed directly** from outside the class.
-- Furthermore, they are made `final` to prevent accidental reassignment inside the class and make the object provably immutable by the compiler.
-- The class provides a **getter method** `getCountry()` to allow read-only access to the country code.
-- `getName()` controls how the full name is formatted, depending on the IOC country code.
+## HAS-A Relationship
 
-This is a simple example of encapsulation because:
-- The object's internal state is protected from accidental changes.
-- The name formatting logic is self-contained and reusable. - Code that uses the `Athlete` class (like in `Main.java`) doesn't need to know how the name is constructed—it just calls `getName()`.
+A **HAS-A relationship** describes how one object can contain or manage instances of another. This project includes a `Team` class to illustrate this concept through **aggregation**: a `Team` object *has* a list of `Athlete` objects.
 
-## Output sample (from `Main.java`)
+### The `Team` Class
 
-```
-LeBron JAMES (USA)
-Stephen CURRY (USA)
-Luka DONCIC (SLO)
-Giannis ANTETOKOUNMPO (GRE)
-YAO Ming (CHN)
-HACHIMURA Rui (JPN)
-HA Seung-Jin (KOR)
-NGUYEN Van Hung (VNM)
-Pau GASOL (ESP)
-Steve NASH (CAN)
+- A `Team` object represents a collection of athletes from the same country.
+- It maintains a list of `Athlete` objects and ensures that all members share the same `countryCode`.
+- This structure models a typical aggregation relationship, where one class (Team) is composed of other objects (Athletes), but those objects can also exist independently.
+
+#### Example
+
+```java
+Team usaTeam = new Team("USA");
+usaTeam.addAthlete(new Athlete("James", "LeBron", "USA"));
+usaTeam.addAthlete(new Athlete("Curry", "Stephen", "USA"));
 ```
 
-Notice that for countries like **CHN**, **JPN**, and **VNM**, the last name is displayed first, reflecting cultural naming conventions. The `Athlete` class handles this logic, **encapsulating** the behavior and keeping it consistent.
+## Sample Output
 
-## Learning goals
+```
+Team USA Roster:
+ - LeBron JAMES
+ - Stephen CURRY
 
-- Understand how to declare `private` instance variables.
-- Use constructors to initialize objects.
-- Write `public` methods to access object data safely.
-- Recognize the value of keeping logic inside a class (data + behavior).
-- See encapsulation as a tool for clean, maintainable code.
+Team CHN Roster:
+ - YAO Ming
+ - LIN Jeremy
 
-## Files in this repository
+Team JPN Roster:
+ - HACHIMURA Rui
+ - WATANABE Yuta
+```
 
-- [`Athlete.java`](src/Athlete.java) – The encapsulated model of an athlete.
-- [`Main.java`](src/Main.java) – A demo of how to use the `Athlete` class with real data.
+## Learning Objectives
 
-## Challenge
+- Understand how to declare `private` instance variables and control access using public methods.
+- Use constructors to initialize immutable objects.
+- Recognize encapsulation as a tool for robust, maintainable code.
+- Understand how HAS-A relationships model real-world associations between objects.
+- Distinguish between encapsulation and aggregation in OOP.
 
-Can you extend the program to:
-- Sort the athletes by country or name?
-- Add validation to ensure valid IOC country codes?
-- Create a subclass for a specific sport like `BasketballPlayer`?
+## Files in This Project
+
+- `Athlete.java` – Defines the `Athlete` class and encapsulates cultural name formatting logic.
+- `Team.java` – Defines the `Team` class and demonstrates a HAS-A relationship with `Athlete`.
+- `Main.java` – Demonstrates how to use the classes together to build and display teams.
